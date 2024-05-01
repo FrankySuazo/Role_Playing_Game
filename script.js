@@ -1,3 +1,4 @@
+// Global Variables
 let xp = 0;
 let health = 100;
 let gold = 50;
@@ -6,6 +7,7 @@ let fighting;
 let monsterHealth;
 let inventory = ["stick"];
 
+//HTML import (buttons)
 const button1 = document.querySelector('#button1');
 const button2 = document.querySelector("#button2");
 const button3 = document.querySelector("#button3");
@@ -16,12 +18,16 @@ const goldText = document.querySelector("#goldText");
 const monsterStats = document.querySelector("#monsterStats");
 const monsterName = document.querySelector("#monsterName");
 const monsterHealthText = document.querySelector("#monsterHealth");
+
+//Weapons list
 const weapons = [
   { name: 'stick', power: 5 },
   { name: 'dagger', power: 30 },
   { name: 'claw hammer', power: 50 },
   { name: 'sword', power: 100 }
 ];
+
+//Monster List which will be randomize selection in the following functions for cave.location
 const monsters = [
   {
     name: "slime",
@@ -39,6 +45,8 @@ const monsters = [
     health: 300
   }
 ]
+
+//Locations with their selective information
 const locations = [
   {
     name: "town square",
@@ -64,6 +72,8 @@ const locations = [
     "button functions": [attack, dodge, goTown],
     text: "You are fighting a monster."
   },{
+
+    //These are more of situations of locations
     name: "kill monster",
     "button text": ["Go to town square", "Go to town square", "Go to town square"],
     "button functions": [goTown, goTown, goTown],
@@ -93,6 +103,7 @@ button1.onclick = goStore;
 button2.onclick = goCave;
 button3.onclick = fightDragon;
 
+//Locations transition
 function update(location) {
   monsterStats.style.display = "none";
   button1.innerText = location["button text"][0];
@@ -104,6 +115,7 @@ function update(location) {
   text.innerText = location.text;
 }
 
+//Actual locations
 function goTown() {
   update(locations[0]);
 }
@@ -116,6 +128,7 @@ function goCave() {
   update(locations[2]);
 }
 
+//Store buy health
 function buyHealth() {
   if (gold >= 10) {
     gold -= 10;
@@ -127,6 +140,7 @@ function buyHealth() {
   }
 }
 
+//Store buy weapons
 function buyWeapon() {
   if (currentWeapon < weapons.length - 1) {
     if (gold >= 30) {
@@ -147,6 +161,7 @@ function buyWeapon() {
   }
 }
 
+//Store sale weapons
 function sellWeapon() {
   if (inventory.length > 1) {
     gold += 15;
@@ -159,6 +174,7 @@ function sellWeapon() {
   }
 }
 
+//Monster selection of dificulty for goFight()
 function fightSlime() {
   fighting = 0;
   goFight();
@@ -182,6 +198,7 @@ function goFight() {
   monsterHealthText.innerText = monsterHealth;
 }
 
+//Attack() for goFight(); depending on the selection of Monster
 function attack() {
   text.innerText = "The " + monsters[fighting].name + " attacks.";
   text.innerText += " You attack it with your " + weapons[currentWeapon].name + ".";
@@ -204,20 +221,24 @@ function attack() {
   }
 }
 
+//Logic of Monter giving damage
 function getMonsterAttackValue(level) {
   const hit = (level * 5) - (Math.floor(Math.random() * xp));
   console.log(hit);
   return hit > 0 ? hit : 0;
 }
 
+//Logic of Monster being hit
 function isMonsterHit() {
   return Math.random() > .2 || health < 20;
 }
 
+//Logic of dodging, cuz why not?
 function dodge() {
   text.innerText = "You dodge the attack from the " + monsters[fighting].name;
 }
 
+//Logic of defeating the Monster, like reward and stuff
 function defeatMonster() {
   gold += Math.floor(monsters[fighting].level * 6.7);
   xp += monsters[fighting].level;
@@ -226,14 +247,17 @@ function defeatMonster() {
   update(locations[4]);
 }
 
+//Restart if lost
 function lose() {
   update(locations[5]);
 }
 
+//End game if won, added Easter eggs if someone wants to play longer
 function winGame() {
   update(locations[6]);
 }
 
+//Incase player wants to repeat, and this is used if player loses
 function restart() {
   xp = 0;
   health = 100;
@@ -246,6 +270,7 @@ function restart() {
   goTown();
 }
 
+//The eastereggs after game won
 function easterEgg() {
   update(locations[7]);
 }
