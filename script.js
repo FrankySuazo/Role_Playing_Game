@@ -6,7 +6,7 @@ let currentWeapon = 0;
 let fighting;
 let monsterHealth;
 let inventory = ["stick"];
-//
+
 //HTML import (buttons)
 const button1 = document.querySelector('#button1');
 const button2 = document.querySelector("#button2");
